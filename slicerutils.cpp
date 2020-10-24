@@ -69,7 +69,6 @@ QStringList SlicerUtils::getArgumentsForFile(const QString &layersDir) {
 	arguments << generate_path;
 	//arguments << "D:/build-rayware-Desktop_Qt_5_11_2_MSVC2015_64bit-Release/release/Borderfinder/teeth1";
 	//arguments << "C:/Program Files (x86)/RayWare/Borderfinder/teeth1";
-	//arguments << "D:/ÈÎÎñ/Java/22";
 
 	//QFileInfo fileInfo(layersDir);
 	//QString fileName = fileInfo.baseName();

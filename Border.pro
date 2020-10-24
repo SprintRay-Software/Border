@@ -41,10 +41,20 @@ unix {
     INSTALLS += target
 }
 
+macx {
+    INCLUDEPATH += $$PWD/include_Mac
 
+    LIBS += -L$$PWD/lib_Mac -lOpenMeshCore
+    LIBS += -L$$PWD/lib_Mac -lOpenMeshTools
+
+}
+
+win32 {
     INCLUDEPATH += $$PWD/include
 
     LIBS += -L$$PWD/lib -lOpenMeshCore
     LIBS += -L$$PWD/lib -lOpenMeshCored
-    LIBS += -L$$PWD/lib -OpenMeshTools
-    LIBS += -L$$PWD/lib -OpenMeshToolsd
+    LIBS += -L$$PWD/lib -lOpenMeshTools
+    LIBS += -L$$PWD/lib -lOpenMeshToolsd
+}
+

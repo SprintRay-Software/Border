@@ -1,8 +1,7 @@
-#include <OpenMesh\Core\IO\MeshIO.hh>
-#include <OpenMesh\Core\Mesh\PolyMesh_ArrayKernelT.hh>
-#include "Border.h"
-#include "borderfinder.h"
-#include "borderfinderConstants.h"
+#include <OpenMesh/Core/IO/MeshIO.hh>
+#include <OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh>
+#include "border.h"
+#include "BorderFinder.h"
 
 typedef OpenMesh::PolyMesh_ArrayKernelT<> MyMesh;
 MyMesh myMesh;

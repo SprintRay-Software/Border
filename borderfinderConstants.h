@@ -10,16 +10,13 @@
 namespace BORDERFINDERCONSTANTS {
 	// Location of the slicer and output image (UPDATE THIS FOR YOUR SYSTEM!)
 #ifdef __APPLE__
-	const QString SQUASHED_IMG_PATH = "D:/borderfinder-master/outImg/AutoOrientPolygons_0.png";
-	const QString SLICER_PATH = "D:/borderfinder-master/lib/slicer/Windows/Command Line/DLPSlicerSingleWin.exe";
+    const QString SQUASHED_IMG_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
+    const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/DLPSlicerSingleMac";
 #else
 	const QString SQUASHED_IMG_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
-	const QString CLONE_STL_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
-	//const QString SLICER_PATH = QDir::currentPath() + "/Borderfinder/lib/slicer/Windows/Command Line/DLPSlicerSingleWin.exe";
-	//const QString SLICER_PATH = qApp->applicationDirPath() + "/Borderfinder/Command Line/DLPSlicerSingleWin.exe";
-	const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder/Command Line/DLPSlicerSingleWin.exe";
-	//const QString SLICER_PATH = "D:/任务/Java/新建文件夹/Borderfinder - test/Border/Border/Borderfinder/lib/slicer/Windows/Command Line/DLPSlicerSingleWin.exe";
+    const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder/Command Line/DLPSlicerSingleWin.exe";
 #endif
+    const QString CLONE_STL_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
 
 	// Color of the background. All other colrs are considered to be the object.
 	const QColor EMPTY_PIXEL = QColor(0, 0, 0);
