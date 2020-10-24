@@ -4,6 +4,7 @@
 #include <qdir.h>
 #include <QCoreApplication>
 #include <iostream> 
+#include "border_global.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ const QString OUTPUT_FILE = QCoreApplication::applicationDirPath() + "/Borderfin
 // where the image should go
 const QString OUTPUT_IMG = QCoreApplication::applicationDirPath() + "/Borderfinder/";
 
-class __declspec(dllexport) Border
+class BORDERSHARED_EXPORT Border
 {
 public:
 	void startFind(QString input_path);

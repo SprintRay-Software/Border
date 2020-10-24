@@ -33,7 +33,8 @@ HEADERS += \
         border.h \
     BorderFinder.h \
     borderfinderConstants.h \
-    slicerutils.h
+    slicerutils.h \
+    border_global.h
 
 unix {
     target.path = /usr/lib
