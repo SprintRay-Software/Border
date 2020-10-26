@@ -21,15 +21,10 @@ BorderFinder::BorderFinder(const QString &pathToImage) : isBorder(), rowEntrance
 
 	if (inputFile.suffix() == "stl" || inputFile.suffix() == "obj") {
 		SlicerUtils::Slice(pathToImage);
-
-		qDebug() << "QImage = " << QCoreApplication::applicationDirPath() + BORDERFINDERCONSTANTS::SQUASHED_IMG_PATH + "/" + fileName + "/AutoOrientPolygons_0.png";
 		QFile image(QCoreApplication::applicationDirPath() + BORDERFINDERCONSTANTS::SQUASHED_IMG_PATH + "/" + fileName + "/AutoOrientPolygons_0.png");
 		if (image.exists())
 		{
-			qDebug() << "image.exists()";
 			this->img = QImage(QCoreApplication::applicationDirPath() + BORDERFINDERCONSTANTS::SQUASHED_IMG_PATH + "/" + fileName + "/AutoOrientPolygons_0.png");
-			//this->img = QImage("D:/build-rayware-Desktop_Qt_5_11_2_MSVC2015_64bit-Release/release/Borderfinder/teeth1/AutoOrientPolygons_0.png");
-			//this->img = QImage("C:/Program Files (x86)/RayWare/Borderfinder/teeth1/AutoOrientPolygons_0.png");
 		}
 	}
 	else {
@@ -37,124 +32,113 @@ BorderFinder::BorderFinder(const QString &pathToImage) : isBorder(), rowEntrance
 	}
 
 	if (this->img.isNull()) {
-		qDebug() << "img.isNull()";
-		//qFatal(BORDERFINDERCONSTANTS::FILE_TYPE_INCORRECT.toLatin1().constData(), pathToImage.toLatin1().constData());
+        //qFatal(BORDERFINDERCONSTANTS::FILE_TYPE_INCORRECT.toLatin1().constData(), pathToImage.toLatin1().constData());
 	}
 }
 
 bool BorderFinder::drawBorderPointsToImage(QString imagePath) {
 	if (img.isNull())
 	{
-		qDebug() << "drawBorderPointsToImage.isNull()";
 		return false;
 	}
 	QImage borderedImg(img);
 
 	borderedImg = grayScaleToBlackAndWhite(borderedImg);
 
-	QVector<QPoint> qvec_point = getBorderPoints();
-	vector<QPoint> qvec_point1;
+    QVector<QPoint> pointList = getBorderPoints();
+    vector<QPoint> clonePointList;
 	vector<QPoint> pointListOut;
-	for (QPoint point : qvec_point)
+    for (QPoint point : pointList)
 	{
-		qvec_point1.push_back(point);
+        clonePointList.push_back(point);
 	}
 
-	double xmin = qvec_point[0].x(), xmax = qvec_point[0].x(), ymin = qvec_point[0].y(), ymax = qvec_point[0].y();
-	for (QPoint point : qvec_point)
+    double minX = pointList[0].x(), maxX = pointList[0].x(), minY = pointList[0].y(), maxY = pointList[0].y();
+    for (QPoint point : pointList)
 	{
-		if (point.x() <= xmin)
+        if (point.x() <= minX)
 		{
-			xmin = point.x();
+            minX = point.x();
 		}
-		if (point.y() <= ymin)
+        if (point.y() <= minY)
 		{
-			ymin = point.y();
+            minY = point.y();
 		}
-		if (point.x() >= xmax)
+        if (point.x() >= maxX)
 		{
-			xmax = point.x();
+            maxX = point.x();
 		}
-		if (point.y() >= ymax)
+        if (point.y() >= maxY)
 		{
-			ymax = point.y();
+            maxY = point.y();
 		}
 	}
-	double w_coor = (xmax + xmin) / 2.0;
-	double h_coor = (ymax + ymin) / 2.0;
+    double coorW = (maxX + minX) / 2.0;
+    double coorH = (maxY + minY) / 2.0;
 
-	double y_offset = 1080 - 2 * h_coor;
+    double offsetY = 1080 - 2 * coorH;
 
-	RamerDouglasPeucker(qvec_point1, 5.0, pointListOut);
+    RamerDouglasPeucker(clonePointList, 5.0, pointListOut);
 
 	QPainter p(&borderedImg);
 	p.setPen(QColor(255, 0, 0));
 	int length = pointListOut.size();
 	for (int i = 0; i < length; i++)
 	{
-		p.drawLine(pointListOut[i%length].x(), pointListOut[i%length].y()+ y_offset, pointListOut[(i + 1) % length].x(), pointListOut[(i + 1) % length].y()+ y_offset);
+        p.drawLine(pointListOut[i%length].x(), pointListOut[i%length].y()+ offsetY, pointListOut[(i + 1) % length].x(), pointListOut[(i + 1) % length].y()+ offsetY);
 	}
-
-	//for (QPoint pixel : pointListOut) {
-	//	// don't try to change an offscreen pixel
-	//	if (!isPointOutOfBounds(pixel)) {
-	//		borderedImg.setPixelColor(pixel, BORDERFINDERCONSTANTS::BORDER_PIXEL);
-	//		// hardcoded for teeth1.stl
-	//	}
-	//}
 
 	// will return false if error
 	return borderedImg.save(imagePath);
 }
 
-bool BorderFinder::writeBorderPointsToFile(QString filePath, int x_off, int y_off) {
+bool BorderFinder::writeBorderPointsToFile(QString filePath, int offX, int offY) {
 	QFile file(filePath);
 	if (file.open(QFile::Append)) {
 		QTextStream out(&file);
-		QVector<QPoint> qvec_point = getBorderPoints();
-		if (qvec_point.size() <= 0)
+        QVector<QPoint> pointList = getBorderPoints();
+        if (pointList.size() <= 0)
 		{
 			return false;
 		}
-		for (QPoint point : qvec_point)
+        for (QPoint point : pointList)
 		{
-			point.setX(point.x() + x_off);
-			point.setY(point.y() + y_off);
+            point.setX(point.x() + offX);
+            point.setY(point.y() + offY);
 		}
-		vector<QPoint> qvec_point1;
+        vector<QPoint> clonePointList;
 		vector<QPoint> pointListOut;
-		for (QPoint point : qvec_point)
+        for (QPoint point : pointList)
 		{
-			qvec_point1.push_back(point);
+            clonePointList.push_back(point);
 		}
 
-		double xmin= qvec_point[0].x(), xmax = qvec_point[0].x(), ymin = qvec_point[0].y(), ymax = qvec_point[0].y();
-		for (QPoint point : qvec_point)
+        double minX= pointList[0].x(), maxX = pointList[0].x(), minY = pointList[0].y(), maxY = pointList[0].y();
+        for (QPoint point : pointList)
 		{
-			if (point.x() <= xmin)
+            if (point.x() <= minX)
 			{
-				xmin = point.x();
+                minX = point.x();
 			}
-			if (point.y() <= ymin)
+            if (point.y() <= minY)
 			{
-				ymin = point.y();
+                minY = point.y();
 			}
-			if (point.x() >= xmax)
+            if (point.x() >= maxX)
 			{
-				xmax = point.x();
+                maxX = point.x();
 			}
-			if (point.y() >= ymax)
+            if (point.y() >= maxY)
 			{
-				ymax = point.y();
+                maxY = point.y();
 			}
 		}
-		double w_coor = (xmax + xmin) / 2.0;
-		double h_coor = (ymax + ymin) / 2.0;
+        double coorW = (maxX + minX) / 2.0;
+        double coorH = (maxY + minY) / 2.0;
 
-		double y_offset = 1080 - 2 * h_coor;
+        double y_offset = 1080 - 2 * coorH;
 
-
-		RamerDouglasPeucker(qvec_point1, 5.0, pointListOut);
+        RamerDouglasPeucker(clonePointList, 5.0, pointListOut);
 		out << pointListOut.size();
 		for (QPoint point : pointListOut) {
 			out << ' ' << '[' << point.x() << ',' << (point.y() + y_offset) << ']';
@@ -183,7 +167,6 @@ QVector<QPoint> BorderFinder::getBorderPoints() {
 	if (this->borderPoints.empty()) {
 		if (img.isNull())
 		{
-			qDebug() << "getBorderPoints.isNull()";
 			return this->borderPoints;
 		}
 		for (QPoint currPoint = findStartPointOfNewShape(QPoint(0, 0));

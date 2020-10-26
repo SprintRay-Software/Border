@@ -36,7 +36,7 @@ public:
 	 * @param filePath Path to write points to
 	 * @return true if succesful, false otherwise
 	 */
-	bool writeBorderPointsToFile(QString filePath, int x_off, int y_off);
+    bool writeBorderPointsToFile(QString filePath, int offX, int offY);
 
 	/**
 	 * Draw the borderpoints for the current Bordermaker to an image file.
