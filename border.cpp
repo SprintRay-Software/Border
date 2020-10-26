@@ -8,14 +8,11 @@ MyMesh myMesh;
 
 void Border::startFind(QString inputPath)
 {
-	//input_path = input_path.remove(0, 8);
     BorderFinder sqr(inputPath);
     QFileInfo fileInfo(inputPath);
 	QString fileName = fileInfo.baseName();
 	sqr.drawBorderPointsToImage(QCoreApplication::applicationDirPath() + OUTPUT_IMG + fileName + ".png");
     sqr.writeBorderPointsToFile(QCoreApplication::applicationDirPath() + OUTPUT_FILE + fileName + ".txt", offX, offY);
-	//sqr.drawBorderPointsToImage(OUTPUT_IMG + fileName + ".png");
-	//sqr.writeBorderPointsToFile(OUTPUT_FILE + fileName + ".txt", x_off, y_off);
 }
 
 void Border::cloneModelAndProcess(string inputPath)
