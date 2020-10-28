@@ -11,7 +11,7 @@ namespace BORDERFINDERCONSTANTS {
 	// Location of the slicer and output image (UPDATE THIS FOR YOUR SYSTEM!)
 #ifdef __APPLE__
     const QString SQUASHED_IMG_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
-    const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/DLPSlicerSingleMac";
+    const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder/DLPSlicerSingleMac";
 #else
 	const QString SQUASHED_IMG_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder";
     const QString SLICER_PATH = QCoreApplication::applicationDirPath() + "/Borderfinder/Command Line/DLPSlicerSingleWin.exe";
