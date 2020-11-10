@@ -20,9 +20,9 @@ const QString OUTPUT_IMG = QCoreApplication::applicationDirPath() + "/Borderfind
 class BORDERSHARED_EXPORT Border
 {
 public:
-    void startFind(QString inputPath);
-    void cloneModelAndProcess(string inputPath);
-    void calcOff(int &offX, int &offY);
+    void startFind(QString inputPath,double scale);
+    bool cloneModelAndProcess(string inputPath,double scale);
+    bool calcOff(int &offX, int &offY,double scale);
 
 public:
     int offX;

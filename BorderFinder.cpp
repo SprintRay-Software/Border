@@ -9,7 +9,7 @@
 
 inline uint qHash(const QPoint &key) { return (key.x() << 16) + key.y(); }
 
-BorderFinder::BorderFinder(const QString &pathToImage) : isBorder(), rowEntranceExit(), borderPoints() {
+BorderFinder::BorderFinder(const QString &pathToImage, double scale) : isBorder(), rowEntranceExit(), borderPoints() {
 	QFileInfo inputFile(pathToImage);
 
 	if (!inputFile.exists()) {
@@ -19,8 +19,8 @@ BorderFinder::BorderFinder(const QString &pathToImage) : isBorder(), rowEntrance
 	QFileInfo fileInfo(pathToImage);
 	QString fileName = fileInfo.baseName();
 
-	if (inputFile.suffix() == "stl" || inputFile.suffix() == "obj") {
-		SlicerUtils::Slice(pathToImage);
+    if (inputFile.suffix() == "stl" || inputFile.suffix() == "obj") {
+        SlicerUtils::Slice(pathToImage, scale);
 		QFile image(QCoreApplication::applicationDirPath() + BORDERFINDERCONSTANTS::SQUASHED_IMG_PATH + "/" + fileName + "/AutoOrientPolygons_0.png");
 		if (image.exists())
 		{

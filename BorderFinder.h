@@ -27,7 +27,7 @@ public:
 	 *
 	 * @param pathToImage Path to image (png and stl tested)
 	 */
-	BorderFinder(const QString &pathToImage);
+    BorderFinder(const QString &pathToImage, double scale);
 
 	/**
 	 * Write the borderpoints for the current Bordermaker to a text file in the
@@ -46,6 +46,8 @@ public:
 	 * @return true if succesful, false otherwise
 	 */
 	bool drawBorderPointsToImage(QString imagePath);
+
+    double scale = 1;
 
 private:
 	// The image to read and modify

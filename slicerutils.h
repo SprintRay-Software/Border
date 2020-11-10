@@ -12,11 +12,11 @@ namespace SlicerUtils {
 
 	QString BuildTransformationMatrixString(const QMatrix4x4 &mat);
 
-	QStringList getArgumentsForFile(const QString &layersDir);
+    QStringList getArgumentsForFile(const QString &layersDir, double scale);
 
-	void SliceChi(const QString &layersDir);
+    void SliceChi(const QString &layersDir, double scale);
 
-	void Slice(const QString &layersDir);
+    void Slice(const QString &layersDir, double scale);
 
 	QString getExecutablePath();
 
